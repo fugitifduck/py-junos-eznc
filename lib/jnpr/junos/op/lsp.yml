@@ -1,0 +1,36 @@
+LSPTable:
+    rpc: get-mpls-lsp-information
+    args:
+        detail: True
+    item: rsvp-session-data
+    view: LSPView
+
+LSPView:
+    fields:
+        type: session-type
+        sessions: _sessionTable
+
+_sessionTable:
+    item: rsvp-session/mpls-lsp
+    key:
+        - destination-address
+        - name
+    view: _sessionView
+
+_sessionView:
+    fields:
+        source: source-address
+        destination: destination-address
+        path: _pathTable
+
+_pathTable:
+    item: mpls-lsp-path
+    view: _pathView
+
+_pathView:
+    fields:
+        title: title
+        rro: _rroTable
+
+_rroTable:
+    item: explicit-route/address
